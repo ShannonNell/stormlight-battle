@@ -1,5 +1,5 @@
 /* GAME FUNCTIONS */
-//window.alert("Would you like to destroy some evil today?");
+        //window.alert("Would you like to destroy some evil today?");
 
 // random numeric value function
 var randomNumber = function(min, max) {
@@ -43,8 +43,10 @@ var fightOrSkip = function() {
 
 // fight function
 var fight = function(enemy) {
+    
     //keep track of who goes first
     var isRadiantTurn = true;
+    // randomly change turn order at start of new game
     if (Math.random() > 0.5) {
         isRadiantTurn = false;
     }
@@ -128,6 +130,8 @@ var startGame = function() {
     for(var i = 0; i < enemyInfo.length; i++) {
         //check player stats
         console.log(radiantInfo);
+
+        //if player is still alive, keep fighting
         if (radiantInfo.stormlight > 0) {
 
             //let player know what floor they are on
@@ -160,6 +164,7 @@ var startGame = function() {
             break;
         }
     }
+
     // after loop ends, player is either out of health or has no more enemies to fight, so run endGame function
     endGame();
 };
@@ -203,6 +208,7 @@ var dalinar = function() {
         "You have found Dalinar and Zahel. Would you like Dalinar to REFILL (1) your Stormlight, Zahel to UPGRADE (2) your attack skills, or LEAVE (3) them to deal with their own problems?"
     );
 
+    //parseInt to change from string to integer
     dalinarOptionPrompt = parseInt(dalinarOptionPrompt);
 
     // use switch to carry out action
@@ -215,12 +221,10 @@ var dalinar = function() {
             break;
         case 3:
             window.alert("Leaving Dalinar and Zahel to their own problems.");
-
             // do nothing, so function will end
             break;
         default: 
             window.alert("You've got to choose an option, mate. Journey before destination and all that.");
-
             // call dalinar() again to force player to pick a valid option
             dalinar()
             break;
@@ -231,7 +235,7 @@ var dalinar = function() {
 var getRadiantName = function() {
     var name = "";
 
-    while (name === "" || name === null) {
+    while (name === "" || name === null) {        
         name = prompt("What order of the Knights Radiant do you belong to?")
     }
 
