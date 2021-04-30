@@ -3,9 +3,8 @@ var radiantName = window.prompt ("What order of the Knights Radiant do you belon
 var radiantHealth = 100;
 var radiantAttack = 10;
 var radiantSpheres = 10;
-console.log(radiantName, radiantHealth, radiantAttack, radiantSpheres);
 
-var enemyName = "Rabonial";
+var enemyNames = ["Rabonial", "Rayse", "Sadaes"];
 var enemyHealth = 50;
 var enemyAttack = 12;
 
@@ -13,7 +12,7 @@ var enemyAttack = 12;
 /* GAME FUNCTIONS */
 
 // fight function
-function fight() {
+var fight = function(enemyName) {
     window.alert("Would you like to destroy some evil today?");
 
     var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle?");
@@ -74,4 +73,6 @@ function fight() {
 
 
 /* RUN GAME */
-fight();
+for(var i = 0; i < enemyNames.length; i++) {
+    fight(enemyNames[i]);
+}
