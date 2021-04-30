@@ -89,6 +89,15 @@ var startGame = function() {
             enemyHealth = 50;
 
             fight(pickedEnemyName);
+
+            // if we're not at the last enemy in the array
+            if (radiantHealth > 0 && i < enemyNames.length -1) {
+                // ask if player wants to visit Dalinar before next round
+                var dalinarConfirm = window.confirm("The fighting has slowed. Would you like to recover?");
+
+                //if yes, take them to the dalinar() function
+                dalinar();
+            }
         } else {
             window.alert("Your Radiants have run out of Stormlight! Go ask Dalinar to open the perpindicularity and refill your Stormlight.");
             break;
@@ -114,6 +123,54 @@ var endGame = function() {
     }
     else {
         window.alert("Thank for your saving Uruthiru! Come back soon, there's always something going on.");
+    }
+};
+
+var dalinar = function() {
+    // ask player what they'd like to do
+    var dalinarOptionPrompt = window.prompt("You have found Dalinar and Zahel. Would you like Dalinar to REFILL your Stormlight, Zahel to UPGRADE your attack skills, or LEAVE them to deal with their own problems?"
+    );
+
+    // use switch to carry out action
+    switch (dalinarOptionPrompt) {
+        case "refill":
+        case "REFILL":
+            if (radiantSpheres >= 7) {
+                window.alert("Refilling Radiant's Stormlight by 30 for 7 dun spheres.");
+                
+                // increase health and decrease money
+                radiantHealth = radiantHealth + 20;
+                radiantSpheres = radiantSpheres - 7;
+            } else {
+                window.alert("You don't have any dun spheres to exchange!");
+            }
+            break;
+
+        case "upgrade": 
+        case "UPGRADE":
+            if (radiantSpheres >= 7) {
+                window.alert("Upgrading Radiant's attack skills by 8 for 7 dun spheres.");
+
+                // increast attack and decrease money
+                radiantAttack = radiantAttack + 6;
+                radiantSpheres = radiantSpheres -7;
+            } else {
+                window.alert("You don't have any dun spheres to exchange!");
+            }
+            break;
+
+        case "leave":
+        case "LEAVE":
+            window.alert("Leaving Dalinar and Zahel to their own problems.");
+
+            // do nothing, so function will end
+            break;
+        default: 
+            window.alert("You've got to choose an option, mate. Journey before destination and all that.");
+
+            // call dalinar() again to force player to pick a valid option
+            dalinar()
+            break;
     }
 };
 
