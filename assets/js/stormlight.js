@@ -43,72 +43,84 @@ var fightOrSkip = function() {
 
 // fight function
 var fight = function(enemy) {
+    //keep track of who goes first
+    var isRadiantTurn = true;
+    if (Math.random() > 0.5) {
+        isRadiantTurn = false;
+    }
+
     // repeat and execute while enemy is alive
     while(radiantInfo.stormlight > 0 && enemy.health > 0) {
-        if (fightOrSkip()) {
-            //if true, leave fight by breaking loop
-            break;
-        }
+        if (isRadiantTurn) {
+            //ask player if they'd like to fight or skip
+            if (fightOrSkip()) {
+                //if true, leave fight by breaking loop
+                break;
+            }
 
-        // generate random damage value based on player's attack value
-        var damage = randomNumber(radiantInfo.attack -3, radiantInfo.attack);
+            // generate random damage value based on player's attack value
+            var damage = randomNumber(radiantInfo.attack -3, radiantInfo.attack);
 
-        // Remove enemy health; subtract radiantInfo.attack from enemy.health and log
-        enemy.health = Math.max(0, enemy.health - damage);
-        console.log(
-            radiantInfo.name + 
-            " attacked " + 
-            enemy.name + 
-            ". " + 
-            enemy.name + 
-            " now has " + 
-            enemy.health + 
-            " Voidlight remaining."
-        );
+            // Remove enemy health; subtract radiantInfo.attack from enemy.health and log
+            enemy.health = Math.max(0, enemy.health - damage);
+            console.log(
+                radiantInfo.name + 
+                " attacked " + 
+                enemy.name + 
+                ". " + 
+                enemy.name + 
+                " now has " + 
+                enemy.health + 
+                " Voidlight remaining."
+            );
 
-        // Check enemy's health
-        if (enemy.health <=0) {
-            window.alert(enemy.name + " has been defeated.");
+            // Check enemy's health
+            if (enemy.health <=0) {
+                window.alert(enemy.name + " has been defeated.");
 
-            // award player money for winning
-            radiantInfo.spheres = radiantInfo.spheres + 20;
+                // award player money for winning
+                radiantInfo.spheres = radiantInfo.spheres + 20;
 
-            //leave while() loop since enemy is dead
-            break;
-        } else {
-            window.alert(enemy.name + " still has " + enemy.health + " Voidlight remaining.");
-        }
+                //leave while() loop since enemy is dead
+                break;
+            } else {
+                window.alert(enemy.name + " still has " + enemy.health + " Voidlight remaining.");
+            }
         
-        // generate random damage for player based on enemy's attack
-        var damage = randomNumber(enemy.attack - 3, enemy.attack);
+            // generate random damage for player based on enemy's attack
+            var damage = randomNumber(enemy.attack - 3, enemy.attack);
 
-        // Remove player health; subtract enemy.attack from radiantInfo.stormlight and log
-        radiantInfo.stormlight = Math.max(0, radiantInfo.stormlight - damage);
-        console.log(
-            enemy.name + 
-            " attacked " + 
-            radiantInfo.name + 
-            ". " + 
-            radiantInfo.name + 
-            " now have " + 
-            radiantInfo.stormlight + 
-            " Stomlight remaining."
-        );
+            // Remove player health; subtract enemy.attack from radiantInfo.stormlight and log
+            radiantInfo.stormlight = Math.max(0, radiantInfo.stormlight - damage);
+            console.log(
+                enemy.name + 
+                " attacked " + 
+                radiantInfo.name + 
+                ". " + 
+                radiantInfo.name + 
+                " now have " + 
+                radiantInfo.stormlight + 
+                " Stomlight remaining."
+            );
         
-        // Check radiant's health
-        if (radiantInfo.stormlight <=0) {
-            window.alert(radiantInfo.name + " has run out of Stormlight.");
-            // leave while() loop if radiant ran out of Stormlight
-            break;
-        } else {
-            window.alert("The " + radiantInfo.name + "'s still have " + radiantInfo.stormlight + " Stormlight remaining.");
+            // Check radiant's health
+            if (radiantInfo.stormlight <=0) {
+                window.alert(radiantInfo.name + " has run out of Stormlight.");
+                // leave while() loop if radiant ran out of Stormlight
+                break;
+            } else {
+                window.alert("The " + radiantInfo.name + "'s still have " + radiantInfo.stormlight + " Stormlight remaining.");
+            }
         }
+        // switch turn order for next round
+        isRadiantTurn = !isRadiantTurn;
     }
 };
 
 
 //function to start a new game
 var startGame = function() {
+        
     //reset radiant stats
     radiantInfo.reset();
 
@@ -178,21 +190,20 @@ var endGame = function() {
 var dalinar = function() {
     // ask player what they'd like to do
     var dalinarOptionPrompt = window.prompt(
-        "You have found Dalinar and Zahel. Would you like Dalinar to REFILL your Stormlight, Zahel to UPGRADE your attack skills, or LEAVE them to deal with their own problems?"
+        "You have found Dalinar and Zahel. Would you like Dalinar to REFILL (1) your Stormlight, Zahel to UPGRADE (2) your attack skills, or LEAVE (3) them to deal with their own problems?"
     );
+
+    dalinarOptionPrompt = parseInt(dalinarOptionPrompt);
 
     // use switch to carry out action
     switch (dalinarOptionPrompt) {
-        case "refill":
-        case "REFILL":
+        case 1:
             radiantInfo.refillStormlight();
             break;
-        case "upgrade": 
-        case "UPGRADE":
+        case 2:
             radiantInfo.upgradeAttack();
             break;
-        case "leave":
-        case "LEAVE":
+        case 3:
             window.alert("Leaving Dalinar and Zahel to their own problems.");
 
             // do nothing, so function will end
