@@ -8,25 +8,46 @@ var randomNumber = function(min, max) {
     return value;
 };
 
+// fight or skip function
+var fightOrSkip = function() {
+    // ask player if want to fight or skip using fightOrSkip function
+    var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle?");
+
+    // validate prompt answer
+    if (promptFight === "" || promptFight === null) {
+        window.alert("You need to provide a valid answer! Please try again.");
+        // use return to call it again and stop the rest of this funciton from running
+        return fightOrSkip();
+    }
+
+    // convert promptFight to lower case
+    promptFight = promptFight.toLowerCase();
+
+    // If player skips, confirm and stop loop    
+    if (promptFight === "skip") {
+        // confirm skip
+        var confirmSkip = window.confirm("Are you sure your Order wants to leave the battle?");
+        
+        // if yes, leave fight
+        if (confirmSkip) {
+            window.alert("The " + radiantInfo.name + "'s have decided to skip the battle.");
+            //subtract spheres from radiantMoney for skipping
+            radiantInfo.spheres = Math.max(0, radiantInfo.spheres - 10);
+
+            // return tru if player wants to leave
+            return true;
+        }
+    }  
+    return false;  
+}
+
 // fight function
 var fight = function(enemy) {
     // repeat and execute while enemy is alive
     while(radiantInfo.stormlight > 0 && enemy.health > 0) {
-        var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle?");
-
-        // If player skips, confirm and stop loop    
-        if (promptFight === "skip" || promptFight === "SKIP") {
-            // confirm skip
-            var confirmSkip = window.confirm("Are you sure your Order wants to leave the battle?");
-            
-            // if yes, leave fight
-            if (confirmSkip) {
-                window.alert("The " + radiantInfo.name + "'s have decided to skip the battle.");
-                //subtract spheres from radiantMoney for skipping
-                radiantInfo.spheres = Math.max(0, radiantInfo.spheres - 10);
-                console.log("radiantInfo.spheres", radiantInfo.spheres);
-                break;
-            }
+        if (fightOrSkip()) {
+            //if true, leave fight by breaking loop
+            break;
         }
 
         // generate random damage value based on player's attack value
