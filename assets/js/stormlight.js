@@ -166,12 +166,22 @@ var startGame = function() {
 
 // function to end game
 var endGame = function() {
-    // if player is still alive, they win!
-    if (radiantInfo.stormlight > 0) {
-        window.alert("The battle is won, you've survived! You now have a score of " + radiantInfo.spheres + ".");
+    window.alert("The Battle for Uruthiru is over. Let's see how you did!");
+
+    //check localStorage for high score, if not there, use 0
+    var highScore = localStorage.getItem("highschore");
+    if (highScore === null) {
+        highScore = 0;
+    }
+    // if player has more money than high score, that is players new high score
+    if (radiantInfo.spheres > highScore) {
+        localStorage.setItem("highscore", radiantInfo.spheres);
+        localStorage.setItem("name", radiantInfo.name);
+
+        alert(radiantInfo.name + " now has the high score of " + radiantInfo.spheres + "!");
     }
     else {
-        window.alert("Your Radiants ran out of Stormlight and have died.");
+        alert(radiantInfo.name + " did not beat the high score of " + highScore);
     }
 
     // ask player if they'd like to play again
